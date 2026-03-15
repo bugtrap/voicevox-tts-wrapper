@@ -9,7 +9,34 @@
     "herohero": 75,
     "namidame": 76
   },
+  "ankomon": {
+    "normal": 113,
+    "tsuyotsuyo": 114,
+    "yowayowa": 115,
+    "kedaruge": 116,
+    "sasayaki": 117
+  },
+  "kasukabetsumugi": {
+    "normal": 8
+  },
+  "meimeihimari": {
+    "normal": 14
+  },
+  "shikokumetan": {
+    "normal": 2,
+    "amaama": 0,
+    "sexy": 4,
+    "tsuntsun": 6,
+    "sasayaki": 36,
+    "hisohiso": 37
+  },
+  "tohokuitako": {
+    "normal": 109
+  },
   "tohokukiritan": {
     "normal": 108
+  },
+  "tohokuzunko": {
+    "normal": 107
   }
 }
