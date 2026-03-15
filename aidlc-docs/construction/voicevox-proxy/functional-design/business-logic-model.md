@@ -31,6 +31,8 @@ POST /v1/audio/speech
     | - voicevox_pitch_scale → pitchScale (optional)
     | - voicevox_intonation_scale → intonationScale (optional)
     | - voicevox_volume_scale → volumeScale (optional)
+    | - voicevox_output_sampling_rate → outputSamplingRate (optional)
+    | - voicevox_output_stereo → outputStereo (optional)
     |
     v
 [6. Call VOICEVOX synthesis (BR-03.3)]

@@ -12,6 +12,10 @@ pub struct SpeechRequest {
     pub voicevox_pitch_scale: Option<f64>,
     pub voicevox_intonation_scale: Option<f64>,
     pub voicevox_volume_scale: Option<f64>,
+    #[serde(rename = "voicevox_output_sampling_rate")]
+    pub output_sampling_rate: Option<u32>,
+    #[serde(rename = "voicevox_output_stereo")]
+    pub output_stereo: Option<bool>,
 }
 
 fn default_response_format() -> String {

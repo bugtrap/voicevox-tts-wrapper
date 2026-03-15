@@ -17,7 +17,7 @@
   - リクエストボディのバリデーション（model, input, voice, speed 等）
   - Voice マッピング解決（model + voice → speaker_id）
   - VOICEVOX API 呼び出しのオーケストレーション（audio_query → synthesis）
-  - 拡張パラメータ（pitch, intonation, volume）の適用
+  - 拡張パラメータ（pitch, intonation, volume, output_sampling_rate, output_stereo）の適用
 - **Interfaces**:
   - Input: `SpeechRequest`
   - Output: `Vec<u8>` (WAV バイナリ)

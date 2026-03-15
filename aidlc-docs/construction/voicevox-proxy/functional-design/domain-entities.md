@@ -15,6 +15,8 @@ OpenAI TTS API 互換のリクエストボディ。
 | `voicevox_pitch_scale` | f64 | No | ピッチスケール (VOICEVOX 拡張) |
 | `voicevox_intonation_scale` | f64 | No | 抑揚スケール (VOICEVOX 拡張) |
 | `voicevox_volume_scale` | f64 | No | 音量スケール (VOICEVOX 拡張) |
+| `voicevox_output_sampling_rate` | u32 | No | 出力サンプリングレート (VOICEVOX 拡張) |
+| `voicevox_output_stereo` | bool | No | ステレオ出力 (VOICEVOX 拡張) |
 
 ### ModelsResponse
 ```json
@@ -89,6 +91,8 @@ OpenAI TTS API 互換のリクエストボディ。
 | `pitchScale` | f64 | ピッチスケール |
 | `intonationScale` | f64 | 抑揚スケール |
 | `volumeScale` | f64 | 音量スケール |
+| `outputSamplingRate` | i32 | 出力サンプリングレート |
+| `outputStereo` | bool | ステレオ出力フラグ |
 
 ### AppError
 ```rust

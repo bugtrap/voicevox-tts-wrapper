@@ -47,6 +47,8 @@ AudioQuery JSON に以下のパラメータを上書き:
 | `voicevox_pitch_scale` | `pitchScale` | 指定時のみ上書き |
 | `voicevox_intonation_scale` | `intonationScale` | 指定時のみ上書き |
 | `voicevox_volume_scale` | `volumeScale` | 指定時のみ上書き |
+| `voicevox_output_sampling_rate` | `outputSamplingRate` | 指定時のみ上書き |
+| `voicevox_output_stereo` | `outputStereo` | 指定時のみ上書き |
 
 ### BR-03.3: synthesis 実行
 1. `POST {VOICEVOX_API_URL}/synthesis?speaker={speaker_id}`

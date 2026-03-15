@@ -353,3 +353,55 @@
 **Context**: Post-completion - SSM revert complete
 
 ---
+
+## Post-Completion: Extended Parameters Addition Request
+**Timestamp**: 2026-03-15T02:00:00Z
+**User Input**: "use AI-DLC; /v1/audio/speech で受け入れる拡張パラメーターに以下を追加して。- outputSamplingRate- outputStereo"
+**AI Response**: Analyzing impact. Adding outputSamplingRate and outputStereo as extended parameters to SpeechRequest. These map to VOICEVOX AudioQuery fields outputSamplingRate (integer) and outputStereo (boolean).
+**Context**: Post-completion - Feature enhancement (new extended parameters)
+
+---
+
+## Post-Completion: Extended Parameters Addition Applied
+**Timestamp**: 2026-03-15T02:01:00Z
+**User Input**: "実行して"
+**AI Response**: Applied outputSamplingRate (u32, optional) and outputStereo (bool, optional) to all artifacts:
+1. voicevox-proxy/src/models.rs: SpeechRequest に output_sampling_rate, output_stereo フィールド追加 (serde rename で JSON 側は camelCase)
+2. voicevox-proxy/src/speech_service.rs: AudioQuery への上書き処理追加
+3. requirements.md: FR-04 拡張パラメータ一覧に追加
+4. domain-entities.md: SpeechRequest テーブル + AudioQuery テーブルに追加
+5. business-rules.md: BR-03.2 パラメータ適用テーブルに追加
+6. business-logic-model.md: Speech Synthesis Flow 図に追加
+**Artifacts Affected**: models.rs, speech_service.rs, requirements.md, domain-entities.md, business-rules.md, business-logic-model.md
+**Context**: Post-completion - Extended parameters addition complete
+
+---
+
+## Post-Completion: Consistency Check Request (FR-04 Parameter Naming)
+**Timestamp**: 2026-03-15T02:10:00Z
+**User Input**: "use AI-DLC; aidlc-docs の整合性をチェックして"
+**AI Response**: FR-04 のパラメータ名変更 (outputSamplingRate/outputStereo → voicevox_output_sampling_rate/voicevox_output_stereo) に対する整合性チェック実施。以下の不整合を検出:
+1. domain-entities.md: SpeechRequest テーブルのフィールド名が旧名 (outputSamplingRate/outputStereo)
+2. business-rules.md: BR-03.2 テーブルのリクエストフィールド名が旧名
+3. business-logic-model.md: フロー図のパラメータ名が旧名
+4. services.md: Speech Service Step 4 に output_sampling_rate/output_stereo が未記載
+5. components.md: Speech Service 拡張パラメータ説明に output_sampling_rate/output_stereo が未記載
+6. models.rs (コード): serde rename が "outputSamplingRate"/"outputStereo" → "voicevox_output_sampling_rate"/"voicevox_output_stereo" に変更必要
+7. speech_service.rs (コード): フィールド参照は Rust 側フィールド名なので変更不要
+**Context**: Post-completion - Consistency check (FR-04 parameter naming alignment)
+
+---
+
+## Post-Completion: Consistency Fixes Applied (FR-04 Parameter Naming)
+**Timestamp**: 2026-03-15T02:11:00Z
+**AI Response**: 全不整合を修正:
+1. domain-entities.md: SpeechRequest フィールド名 → voicevox_output_sampling_rate / voicevox_output_stereo
+2. business-rules.md: BR-03.2 リクエストフィールド名 → voicevox_output_sampling_rate / voicevox_output_stereo
+3. business-logic-model.md: フロー図パラメータ名 → voicevox_output_sampling_rate / voicevox_output_stereo
+4. services.md: Speech Service Step 4 に output_sampling_rate, output_stereo 追加
+5. components.md: Speech Service 拡張パラメータに output_sampling_rate, output_stereo 追加
+6. models.rs: serde rename → "voicevox_output_sampling_rate" / "voicevox_output_stereo"
+**Artifacts Affected**: domain-entities.md, business-rules.md, business-logic-model.md, services.md, components.md, models.rs
+**Context**: Post-completion - Consistency fixes applied
+
+---

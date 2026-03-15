@@ -87,6 +87,8 @@
   - `voicevox_pitch_scale`: ピッチスケール（VOICEVOX `pitchScale`）
   - `voicevox_intonation_scale`: 抑揚スケール（VOICEVOX `intonationScale`）
   - `voicevox_volume_scale`: 音量スケール（VOICEVOX `volumeScale`）
+  - `voicevox_output_sampling_rate`: 出力サンプリングレート（VOICEVOX `outputSamplingRate`、整数値）
+  - `voicevox_output_stereo`: ステレオ出力（VOICEVOX `outputStereo`、真偽値）
 - 拡張フィールドが未指定の場合は VOICEVOX のデフォルト値を使用
 
 ### FR-05: VOICEVOX API 連携

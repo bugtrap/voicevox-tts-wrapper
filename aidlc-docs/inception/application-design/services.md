@@ -28,7 +28,7 @@ Client (OpenAI TTS 互換)
   1. リクエストバリデーション
   2. Voice Mapping で model + voice → speaker_id 解決
   3. VOICEVOX Client で audio_query 生成
-  4. 拡張パラメータ（speed, pitch, intonation, volume）を audio_query に適用
+  4. 拡張パラメータ（speed, pitch, intonation, volume, output_sampling_rate, output_stereo）を audio_query に適用
   5. VOICEVOX Client で synthesis 実行
   6. WAV バイナリを返却
 

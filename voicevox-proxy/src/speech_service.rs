@@ -59,6 +59,12 @@ pub async fn synthesize(
         if let Some(volume) = req.voicevox_volume_scale {
             obj.insert("volumeScale".to_string(), serde_json::json!(volume));
         }
+        if let Some(sampling_rate) = req.output_sampling_rate {
+            obj.insert("outputSamplingRate".to_string(), serde_json::json!(sampling_rate));
+        }
+        if let Some(stereo) = req.output_stereo {
+            obj.insert("outputStereo".to_string(), serde_json::json!(stereo));
+        }
     }
 
     voicevox.synthesis(&query, speaker_id).await
