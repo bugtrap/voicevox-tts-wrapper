@@ -32,26 +32,47 @@
 - **Bundling**: `cargo lambda build --release --arm64` でビルドした bootstrap バイナリ
 
 ### CloudWatch Logs
-- **Log Group**: `/aws/lambda/{function-name}`
+- **Lambda Log Group**: `/aws/lambda/{function-name}`
 - **Retention**: 14 日間
 - **Format**: `tracing` クレートによる構造化 JSON ログ
+
+### API Gateway アクセスログ（必須）
+- **Log Group**: 専用の CloudWatch Log Group
+- **Retention**: 14 日間
+- **ログフィールド**: requestId, ip, httpMethod, requestTime, resourcePath, responseLength, status
+- **形式**: JSON
+
+### API Gateway 実行ログ（必須）
+- **レベル**: INFO
+- **データトレース**: 有効（リクエスト/レスポンスボディ記録）
+
+### AWS X-Ray トレース（必須）
+- **API Gateway**: ステージレベルで tracingEnabled: true
+- **Lambda**: Active Tracing モード（tracing: lambda.Tracing.ACTIVE）
+- **目的**: API Gateway → Lambda → VOICEVOX API の呼び出しチェーン可視化
 
 ## CDK Stack Structure
 
 ```
 VoicevoxProxyStack
 ├── Lambda Function (Rust, arm64, provided.al2023)
-│   └── Environment: VOICEVOX_API_URL
+│   ├── Environment: VOICEVOX_API_URL
+│   └── Tracing: ACTIVE (X-Ray, 必須)
 ├── REST API (API Gateway v1)
 │   ├── Resource: /v1/audio/speech
 │   │   └── POST → Lambda (apiKeyRequired: true)
 │   ├── Resource: /v1/models
 │   │   └── GET → Lambda (apiKeyRequired: true)
 │   ├── Stage: prod
+│   │   ├── Access Logging: CloudWatch Logs (必須)
+│   │   ├── Execution Logging: INFO + dataTrace (必須)
+│   │   └── X-Ray Tracing: enabled (必須)
 │   └── Binary Media Types: audio/wav
 ├── Usage Plan
 │   └── API Key
-└── CloudWatch Log Group
+├── API Access Log Group
+│   └── Retention: 14 days
+└── Lambda Log Group
     └── Retention: 14 days
 ```
 

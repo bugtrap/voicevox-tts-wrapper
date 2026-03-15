@@ -143,8 +143,22 @@
 - 音声フォーマットは WAV のみ
 
 ### NFR-05: セキュリティ
-- セキュリティ拡張ルールはスキップ（プロトタイプ/PoC レベル）
 - 基本的な入力バリデーションは実施
+
+### NFR-06: アクセスログ（必須）
+- API Gateway REST API のアクセスログを CloudWatch Logs に記録
+- ログフィールド: requestId, ip, httpMethod, requestTime, resourcePath, responseLength, status
+- ログ保持期間: 14 日間
+
+### NFR-07: トレース（必須）
+- AWS X-Ray によるトレースを有効化
+  - API Gateway: ステージレベルで X-Ray トレーシング有効
+  - Lambda: Active Tracing モード有効
+- API Gateway → Lambda → VOICEVOX API の呼び出しチェーンを可視化
+
+### NFR-08: 実行ログ（必須）
+- API Gateway Execution Logging を INFO レベルで有効化
+- リクエスト/レスポンスデータのトレース有効（dataTraceEnabled: true）
 
 ---
 
@@ -160,4 +174,6 @@
 | 音声フォーマット | WAV のみ |
 | ストリーミング | なし |
 | エラーハンドリング | 基本レベル |
-| セキュリティルール | スキップ |
+| アクセスログ | 必須（CloudWatch Logs, 14日保持） |
+| トレース | 必須（X-Ray: API Gateway + Lambda） |
+| 実行ログ | 必須（INFO + データトレース） |
