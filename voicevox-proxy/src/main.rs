@@ -53,11 +53,16 @@ async fn main() -> Result<(), lambda_runtime::Error> {
 
 async fn handler(event: Request, state: &AppState) -> Response<Body> {
     let method = event.method().clone();
-    let path = event.uri().path().to_string();
+    let raw_path = event.uri().path().to_string();
+    // REST API (v1) includes the stage prefix (e.g. /prod, /dev) in the path
+    let path = match raw_path.find("/v1/") {
+        Some(pos) => &raw_path[pos..],
+        None => &raw_path,
+    };
 
-    info!(method = %method, path = %path, "Handling request");
+    info!(method = %method, raw_path = %raw_path, path = %path, "Handling request");
 
-    match (method, path.as_str()) {
+    match (method, path) {
         (Method::POST, "/v1/audio/speech") => handle_speech(event, state).await,
         (Method::GET, "/v1/models") => handle_models(state),
         _ => AppError::Validation {
