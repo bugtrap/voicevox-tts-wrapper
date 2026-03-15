@@ -405,3 +405,19 @@
 **Context**: Post-completion - Consistency fixes applied
 
 ---
+
+## Post-Completion: README.md 作成リクエスト
+**Timestamp**: 2026-03-15T03:00:00Z
+**User Input**: "use AI-DLC; README.md を用意したい。記述は日本語として必要な項目について提案して"
+**AI Response**: プロジェクト状態 (COMPLETE) を確認。要件・インフラ設計・コード構成を読み込み、README.md に含めるべき項目を提案。
+**Context**: Post-completion - Documentation (README.md creation)
+
+---
+
+## Post-Completion: README.md 生成完了
+**Timestamp**: 2026-03-15T03:01:00Z
+**User Input**: "OK"
+**AI Response**: README.md を日本語で生成。含めた項目: プロジェクト概要、アーキテクチャ図、前提条件、セットアップ、ビルド、デプロイ、API リファレンス（speech/models/エラー）、Voice マッピング一覧、設定（環境変数/CDK コンテキスト）、ローカル開発、プロジェクト構成、ライセンス。
+**Context**: Post-completion - README.md generated
+
+---
