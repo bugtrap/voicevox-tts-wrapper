@@ -282,3 +282,74 @@
 **Context**: Post-completion - Security requirements change applied
 
 ---
+
+## Post-Completion: VOICEVOX_API_URL SSM Parameter Store Change Request
+**Timestamp**: 2026-03-15T01:20:00Z
+**User Input**: "use AI-DLC: Lambda 環境変数 VOICEVOX_API_URL の定義元を変更します。Systems Manager のパラメーターストアから取得する方法に変更したい。"
+**AI Response**: Analyzing impact and creating clarification questions for SSM Parameter Store migration.
+**Context**: Post-completion - Infrastructure change (Env var → SSM Parameter Store)
+
+---
+
+## Post-Completion: SSM Parameter Store - User Answers Received
+**Timestamp**: 2026-03-15T01:21:00Z
+**User Input**: "完了"
+**AI Response**: Read answers from ssm-questions.md. Q1:A (String), Q2:A (/voicevox-proxy/voicevox-api-url), Q3:A (CDK creates SSM parameter), Q4:B (AWS Parameters and Secrets Extension). No contradictions. Proceeding with implementation.
+**Context**: Post-completion - SSM Parameter Store migration answers
+
+---
+
+## Post-Completion: SSM Parameter Store Migration Applied
+**Timestamp**: 2026-03-15T01:22:00Z
+**AI Response**: Applied SSM Parameter Store migration. Changes:
+1. cdk/lib/voicevox-proxy-stack.ts: Removed VOICEVOX_API_URL env var. Added SSM StringParameter (/voicevox-proxy/voicevox-api-url), AWS Parameters and Secrets Extension Lambda Layer (Arm64), SSM_VOICEVOX_API_URL + PARAMETERS_SECRETS_EXTENSION_HTTP_PORT env vars, grantRead for SSM parameter.
+2. voicevox-proxy/src/main.rs: Replaced std::env::var("VOICEVOX_API_URL") with get_ssm_parameter() function that calls Extension's local HTTP endpoint (localhost:2773) with AWS_SESSION_TOKEN auth.
+3. voicevox-proxy/Cargo.toml: Added urlencoding = "2" dependency.
+4. requirements.md: Updated FR-05 (SSM Parameter Store), NFR-03 (設定管理 → SSM + Extension).
+5. infrastructure-design.md: Updated Infrastructure Overview, Lambda Function section, added SSM Parameter Store section, updated CDK Stack Structure diagram.
+**Artifacts Affected**: voicevox-proxy-stack.ts, main.rs, Cargo.toml, requirements.md, infrastructure-design.md
+**Context**: Post-completion - SSM Parameter Store migration
+
+---
+
+## Post-Completion: SSM Question 4 Answer Changed
+**Timestamp**: 2026-03-15T01:40:00Z
+**User Input**: "ssm-questions.md を更新しました。"
+**AI Response**: Read updated answers. Q4 changed from B (AWS Parameters and Secrets Extension) to A (Lambda initialization, cold start fetch + cache). Applying changes: remove Lambda Layer, replace Extension HTTP call with AWS SDK for Rust (aws-sdk-ssm).
+**Context**: Post-completion - SSM Parameter Store method change
+
+---
+
+## Post-Completion: SSM Method Changed to AWS SDK
+**Timestamp**: 2026-03-15T01:41:00Z
+**AI Response**: Applied Q4 answer change (B→A). Changes:
+1. cdk/lib/voicevox-proxy-stack.ts: Removed Lambda Layer (AWS Parameters and Secrets Extension), removed PARAMETERS_SECRETS_EXTENSION_HTTP_PORT env var.
+2. voicevox-proxy/src/main.rs: Replaced Extension HTTP call with AWS SDK (aws-config + aws-sdk-ssm) GetParameter call at Lambda init.
+3. voicevox-proxy/Cargo.toml: Added aws-config = "1", aws-sdk-ssm = "1". Removed urlencoding = "2".
+4. requirements.md: Updated NFR-03, FR-05 to reflect AWS SDK direct call.
+5. infrastructure-design.md: Removed Extension Layer references, updated Lambda config and SSM section.
+**Artifacts Affected**: voicevox-proxy-stack.ts, main.rs, Cargo.toml, requirements.md, infrastructure-design.md
+**Context**: Post-completion - SSM method change (Extension → AWS SDK)
+
+---
+
+## Post-Completion: SSM Parameter Store Reverted
+**Timestamp**: 2026-03-15T01:50:00Z
+**User Input**: "SSM を利用したパラメーター取得の仕様を取り消します。"
+**AI Response**: Reverting all SSM-related changes. Restoring VOICEVOX_API_URL as Lambda environment variable (from CDK context). Removing aws-sdk-ssm, aws-config dependencies. Restoring original main.rs, CDK stack, requirements, and infrastructure design.
+**Context**: Post-completion - Revert SSM Parameter Store migration
+
+---
+
+## Post-Completion: SSM Revert Applied
+**Timestamp**: 2026-03-15T01:51:00Z
+**AI Response**: Reverted all SSM Parameter Store changes. Restored original VOICEVOX_API_URL environment variable approach:
+1. cdk/lib/voicevox-proxy-stack.ts: Removed SSM parameter, restored VOICEVOX_API_URL env var, removed ssm import.
+2. voicevox-proxy/src/main.rs: Removed get_ssm_parameter(), restored std::env::var("VOICEVOX_API_URL").
+3. voicevox-proxy/Cargo.toml: Removed aws-config, aws-sdk-ssm dependencies.
+4. requirements.md: Restored NFR-03 (環境変数), FR-05 (環境変数から取得).
+5. infrastructure-design.md: Removed SSM/Extension sections, restored original Lambda config and overview table.
+**Artifacts Affected**: voicevox-proxy-stack.ts, main.rs, Cargo.toml, requirements.md, infrastructure-design.md
+**Context**: Post-completion - SSM revert complete
+
+---
