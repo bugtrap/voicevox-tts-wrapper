@@ -1,4 +1,5 @@
 use crate::error::AppError;
+use tracing::info;
 
 pub struct VoicevoxClient {
     base_url: String,
@@ -53,6 +54,8 @@ impl VoicevoxClient {
         speaker_id: u32,
     ) -> Result<Vec<u8>, AppError> {
         let url = format!("{}/synthesis?speaker={}", self.base_url, speaker_id);
+
+        info!(speaker_id = speaker_id, payload = %query, "Sending synthesis request to VOICEVOX");
 
         let resp = self
             .client
