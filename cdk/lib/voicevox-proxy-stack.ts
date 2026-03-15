@@ -25,6 +25,12 @@ export class VoicevoxProxyStack extends cdk.Stack {
         VOICEVOX_API_URL: voicevoxApiUrl,
       },
       logRetention: logs.RetentionDays.TWO_WEEKS,
+      tracing: lambda.Tracing.ACTIVE,
+    });
+
+    // Access Log Group
+    const accessLogGroup = new logs.LogGroup(this, "ApiAccessLogGroup", {
+      retention: logs.RetentionDays.TWO_WEEKS,
     });
 
     // REST API
@@ -33,6 +39,24 @@ export class VoicevoxProxyStack extends cdk.Stack {
       binaryMediaTypes: ["audio/wav"],
       deployOptions: {
         stageName: "prod",
+        // Access Logging
+        accessLogDestination: new apigateway.LogGroupLogDestination(accessLogGroup),
+        accessLogFormat: apigateway.AccessLogFormat.custom(
+          JSON.stringify({
+            requestId: apigateway.AccessLogField.contextRequestId(),
+            ip: apigateway.AccessLogField.contextIdentitySourceIp(),
+            httpMethod: apigateway.AccessLogField.contextHttpMethod(),
+            requestTime: apigateway.AccessLogField.contextRequestTime(),
+            resourcePath: apigateway.AccessLogField.contextResourcePath(),
+            responseLength: apigateway.AccessLogField.contextResponseLength(),
+            status: apigateway.AccessLogField.contextStatus(),
+          })
+        ),
+        // Execution Logging
+        loggingLevel: apigateway.MethodLoggingLevel.INFO,
+        dataTraceEnabled: true,
+        // X-Ray Tracing
+        tracingEnabled: true,
       },
     });
 
