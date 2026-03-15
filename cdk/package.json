@@ -1,0 +1,21 @@
+{
+  "name": "voicevox-proxy-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "cdk": "bin/cdk.js"
+  },
+  "scripts": {
+    "build": "esbuild bin/cdk.ts --bundle --platform=node --target=node22 --outdir=dist --external:aws-cdk-lib --external:constructs",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "aws-cdk": "^2",
+    "esbuild": "^0.25",
+    "typescript": "~5.7"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2",
+    "constructs": "^10"
+  }
+}
